@@ -11,6 +11,7 @@ import TextEditorMenu from "./sx/TextEditorMenu";
 import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import { Button } from "../ui/button";
+import axios from "axios";
 
 export default function Tiptap() {
   const [content, setContent] = useState("");
@@ -31,7 +32,7 @@ export default function Tiptap() {
     ],
     content: "",
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
+      setContent(editor.getJSON());
     },
   });
 
@@ -39,9 +40,14 @@ export default function Tiptap() {
     return null;
   }
 
-  const saveContent = (content) => {
+  const saveContent = async (content) => {
     try {
-      console.log(content);
+      const res = await axios.post("/api/notes/add", content);
+      if (res.status === 201) {
+        console.log("Content saved successfully");
+      } else {
+        console.error("Failed to save content");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -55,7 +61,7 @@ export default function Tiptap() {
       />
       <TextEditorMenu editor={editor} />
 
-      <Button className='w-full h-10 mt-5' onClick={saveContent(content)}>
+      <Button className='w-full h-10 mt-5' onClick={() => saveContent(content)}>
         Save
       </Button>
     </div>

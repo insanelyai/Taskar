@@ -6,7 +6,6 @@ import { createContext, useContext, useEffect, useState } from "react";
 const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
-  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const fetchUser = async () => {
     try {
@@ -20,8 +19,6 @@ export function UserProvider({ children }) {
     } catch (error) {
       console.error(error);
       setUser(null);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -29,9 +26,6 @@ export function UserProvider({ children }) {
     fetchUser();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
   return (
     <UserContext.Provider value={{ user, setUser }}>
       {children}

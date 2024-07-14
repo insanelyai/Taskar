@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 
 export default function NotesDialog() {
   const [cardColor, setCardColor] = useState("#ffaba")
-  console.log(cardColor)
+  
   return (
     <>
       <Dialog>

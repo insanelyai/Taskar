@@ -6,14 +6,11 @@ const NotesSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    content: [
-      {
-        type: Object,
-        required: true,
-      },
-    ],
-  },
-  { timestamps: true }
+    content: {
+      type: Object,
+      required: true,
+    },
+  }, {timestamps: true}
 );
 
 const Notes = mongoose.models.Notes || mongoose.model("Notes", NotesSchema);

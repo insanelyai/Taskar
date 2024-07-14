@@ -3,15 +3,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { EllipsisVertical } from "lucide-react"
 
-export default function NotesCard() {
+export default function NotesCard({title, content, color}) {
    
 
     return(
         <>
-        <Card>
+        <Card style={{backgroundColor: color || ""}}>
             <CardHeader>
                 <div className="flex items-center justify-between">
-                <CardTitle>Notes ka title</CardTitle>
+                <CardTitle className="text-xl">{title}</CardTitle>
                 <Popover>
                     <PopoverTrigger asChild>
                 <Button variant="ghost">
@@ -28,9 +28,7 @@ export default function NotesCard() {
                 </div>
             </CardHeader>
             <CardContent>
-                <p className="text-balance ">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam temporibus aliquid ratione aliquam assumenda velit odio quo dolor! Odit molestiae autem id voluptatibus earum beatae dolore sint in! Accusantium, cumque.
-                </p>
+                <p className="whitespace-pre-wrap ">{content}</p>
             </CardContent>
         </Card>
         </>

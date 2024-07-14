@@ -6,32 +6,27 @@ import { NextResponse } from "next/server";
 
 connect();
 export async function POST(req) {
-  try {
-    const { content } = await req.json();
+ try {
+    const data = await req.json()
+    console.log(data);
+    const uid = await getDataFromToken(req)
 
-    const note = content;
-
-    //console.log(content);
-
-    const uid = await getDataFromToken(req);
     if (!uid) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
     const user = await User.findById(uid).select("-password");
-
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
     const newNote = new Notes({
       user: user._id,
-      content: note,
+      content: data,
     });
-
     await newNote.save();
+    return NextResponse.json({ message: "Note added successfully" }, { status: 200 });
 
-    return NextResponse.json(
-      { message: "Task created successfully", note: newNote },
-      { status: 201 }
-    );
   } catch (error) {
-    console.log(error);
+   
     return NextResponse.json(
       {
         message: "Internal Server Error",
